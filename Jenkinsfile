@@ -14,7 +14,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
-                    slackSend color: "good", message: "Starting Build"
+                    slackSend color: "good", message: "Build Started - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)"
                     echo 'Building...'
                     if (isUnix()) {
                         sh 'mvn clean package'
@@ -36,8 +36,17 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying'
+                    slackSend message: "Deployment Complete - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)"
                 }
             }
+        }
+    }
+    post {
+        success {
+            slackSend color: "good", message: "Job Success - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)"
+        }
+        failure {
+            slackSend color: "danger", message: "Job Failure - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)"
         }
     }
 }
