@@ -14,6 +14,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
+                    slackSend color: "good", message: "Starting Build"
                     echo 'Building...'
                     if (isUnix()) {
                         sh 'mvn clean package'
