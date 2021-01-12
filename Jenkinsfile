@@ -30,14 +30,15 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                branch 'master'
-            }
-            steps {
+            if (env.BRANCH_NAME == 'develop') {
                 script {
-                    echo 'Deploying'
-                    slackSend message: "Deployment Complete - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)"
+                    def message = "${env.JOB_NAME}-${env.BUILD_NUMBER} Dev Deployment"
+                    sh 'heroku git:remote -a pickup-backend-develop'
+                    sh 'git add .'
+                    sh "git commit -am ${message}"
                 }
+            } else if (env.BRANCH_NAME == 'master') {
+
             }
         }
     }
