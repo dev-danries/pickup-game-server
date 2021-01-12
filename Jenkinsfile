@@ -32,18 +32,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def deploy = input {
-                        message 'Deploy??', ok: 'Yes',
-                                parameters: [
-                                        booleanParam(defaultValue: false, description: 'Deploy application', name: 'Yes?', required: true)
-                                ]
-                    }
-                    if (env.BRANCH_NAME == 'develop' && deploy) {
+                    if (env.BRANCH_NAME == 'develop') {
                         def message = "${env.JOB_NAME}-${env.BUILD_NUMBER} Dev Deployment"
                         sh 'heroku git:remote -a pickup-backend-develop'
                         sh 'git add .'
                         sh "git commit -m '${message}'"
-                    } else if (env.BRANCH_NAME == 'master' && deploy) {
+                    } else if (env.BRANCH_NAME == 'master') {
 
                     }
                 }
