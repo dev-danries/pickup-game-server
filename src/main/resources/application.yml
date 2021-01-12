@@ -1,0 +1,4 @@
+swagger:
+  title: PickUp-Backend
+  version: @project.version@
+  description: Backend processes for PickUp App

@@ -2,8 +2,6 @@ package llc.tillted.model;
 
 import com.google.cloud.Timestamp;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 

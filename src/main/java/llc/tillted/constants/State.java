@@ -1,11 +1,11 @@
 package llc.tillted.constants;
 
-public enum States {
+public enum State {
     PENNSYLVANIA("pennsylvania");
 
     public String rawValue;
 
-    States(String stringValue) {
+    State(String stringValue) {
         this.rawValue = stringValue;
     }
 

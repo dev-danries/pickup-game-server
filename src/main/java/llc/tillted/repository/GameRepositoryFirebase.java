@@ -17,7 +17,7 @@ public class GameRepositoryFirebase {
         this.db = db;
     }
 
-    public List<QueryDocumentSnapshot> queryByCity(String country, String state) throws Exception {
+    public List<QueryDocumentSnapshot> queryByState(String country, String state) throws Exception {
         ApiFuture<QuerySnapshot> future =
                 db.collection("games").document(country).collection(state).get();
 
