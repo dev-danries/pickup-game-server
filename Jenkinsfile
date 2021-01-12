@@ -30,14 +30,16 @@ pipeline {
             }
         }
         stage('Deploy') {
-            script {
-                if (env.BRANCH_NAME == 'develop') {
-                    def message = "${env.JOB_NAME}-${env.BUILD_NUMBER} Dev Deployment"
-                    sh 'heroku git:remote -a pickup-backend-develop'
-                    sh 'git add .'
-                    sh "git commit -am ${message}"
-                } else if (env.BRANCH_NAME == 'master') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'develop') {
+                        def message = "${env.JOB_NAME}-${env.BUILD_NUMBER} Dev Deployment"
+                        sh 'heroku git:remote -a pickup-backend-develop'
+                        sh 'git add .'
+                        sh "git commit -am ${message}"
+                    } else if (env.BRANCH_NAME == 'master') {
 
+                    }
                 }
             }
         }
