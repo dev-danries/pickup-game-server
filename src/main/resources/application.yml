@@ -1,4 +1,11 @@
+
+spring:
+  application:
+    name: PickUp-Backend
 swagger:
-  title: PickUp-Backend
+  title: PickUp - Server
+  description: Backend processes for PickUp application
   version: @project.version@
-  description: Backend processes for PickUp App
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSSZ}){brown} {PickUp-Backend : ${APP_ENV}} %clr(${LOG_LEVEL_PATTERN:-%5p}){green} %clr(%-40.40logger{39}){cyan} %replace(%m %xThrowable){'[\n]+', '\n'} %nopex %n"

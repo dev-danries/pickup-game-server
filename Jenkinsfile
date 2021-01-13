@@ -10,6 +10,10 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '1'))
     }
+    environment {
+        jk_aws_id = '<JENKINS_AWS_CREDENTIAL_ID>'
+        GIT_BRANCH_NAME = "${sh(script: 'echo ${GIT_BRANCH##*/}', returnStdout: true).trim()}"
+    }
     stages {
         stage('build') {
             steps {
@@ -30,13 +34,20 @@ pipeline {
             }
         }
         stage('Deploy') {
+            environment {
+                gcs = "${sh(script: 'echo -n ${GIT_BRANCH_NAME,,}-${GIT_COMMIT:0:8}', returnStdout: true).trim()}"
+            }
+            when {
+                anyOf { branch 'develop'; branch 'master' }
+            }
             steps {
-                script {
-                    if (env.BRANCH_NAME == 'develop') {
-                        sh 'mvn clean heroku:deploy'
-                    } else if (env.BRANCH_NAME == 'master') {
-                    }
-                }
+                echo 'Deploying...'
+                step([$class: 'AWSEBDeploymentBuilder', credentialId: "${jk_aws_id}",
+                      awsRegion: 'us-east-1', applicationName: 'pickup-backend',
+                      environmentName: 'PickupBackend-env', rootObject: './bin/pickup-backend.zip',
+                      bucketName: 'elasticbeanstalk-us-east-1-858338784463',
+                      versionLabelFormat: "$gcs", versionDescriptionFormat: "$gcs",
+                      sleepTime: '10', checkHealth: 'true', maxAttempts: '12'])
             }
         }
     }

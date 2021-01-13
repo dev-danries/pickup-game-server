@@ -7,11 +7,13 @@
     <groupId>llc.tillted</groupId>
     <artifactId>PickUp-Backend</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>pickup-backend</name>
 
     <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
-        <java.version>15</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <jar.finalName>${project.name}</jar.finalName>
     </properties>
 
     <parent>
@@ -20,11 +22,23 @@
         <version>2.3.7.RELEASE</version>
     </parent>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <version>2.2.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,6 +66,11 @@
         </dependency>
 
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -61,16 +80,47 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.4</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <appName>pickup-backend-develop</appName>
-                    <jdkVersion>15</jdkVersion>
-                    <processTypes>
-                        <web>java -jar target/PickUp-Backend-1.0-SNAPSHOT.jar</web>
-                    </processTypes>
+                    <mainClass>llc.tillted.Application</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.build.directory}/../bin</directory>
+                            <excludes>
+                                <exclude>**/.ebextensions/**</exclude>
+                            </excludes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>exe-prep</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/../target/pickup-backend-${project.version}.jar" tofile="${project.build.directory}/../bin/pickup-backend.jar"/>
+                                <zip destfile="${project.build.directory}/../bin/pickup-backend.zip" basedir="${project.build.directory}/../bin/" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
