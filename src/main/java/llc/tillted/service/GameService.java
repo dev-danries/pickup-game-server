@@ -26,8 +26,8 @@ public class GameService {
     }
 
     public List<Game> gamesWithinRadius(GamesWithinRadiusRequest request) {
-        var country = request.getCountry().getRawValue();
-        var state = request.getState().getRawValue();
+        var country = request.getCountry();
+        var state = request.getState();
         List<Game> response = new ArrayList<>();
         try {
             List<QueryDocumentSnapshot> documentSnapshots = gameRepositoryFirebase.queryByState(country, state);

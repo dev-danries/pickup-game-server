@@ -6,6 +6,7 @@ import llc.tillted.service.GameService;
 import llc.tillted.swagger.DocumentSwagger;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class GameController {
     }
 
     @PostMapping("/withinRadius")
-    public List<Game> gamesWithinRadius(@RequestBody GamesWithinRadiusRequest request) {
+    public List<Game> gamesWithinRadius(@Valid @RequestBody GamesWithinRadiusRequest request) {
         return gameService.gamesWithinRadius(request);
     }
 
