@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.7.RELEASE</version>
+        <version>2.4.3</version>
     </parent>
 
     <dependencies>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -63,6 +63,7 @@
             <artifactId>firebase-admin</artifactId>
             <version>7.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.geographiclib</groupId>
             <artifactId>GeographicLib-Java</artifactId>
@@ -74,6 +75,7 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -19,6 +19,7 @@ public class Game {
     public static class Location {
         private Double lat;
         private Double lng;
+        private String address;
     }
 
 }

@@ -16,16 +16,17 @@ import java.util.Collections;
 @EnableConfigurationProperties(SwaggerProperties.class)
 public class SpringfoxSwaggerConfig {
 
-    private SwaggerProperties swaggerProperties;
+    private final SwaggerProperties swaggerProperties;
 
-    public SpringfoxSwaggerConfig(SwaggerProperties swaggerProperties) {
+    public SpringfoxSwaggerConfig(final SwaggerProperties swaggerProperties) {
         this.swaggerProperties = swaggerProperties;
     }
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .enable(swaggerProperties.isEnabled())
+                .groupName("open-api-alerts")
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(DocumentSwagger.class))
                 .paths(PathSelectors.any())

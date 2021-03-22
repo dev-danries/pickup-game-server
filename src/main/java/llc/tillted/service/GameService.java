@@ -26,17 +26,17 @@ public class GameService {
     }
 
     public List<Game> gamesWithinRadius(GamesWithinRadiusRequest request) {
-        var country = request.getCountry();
-        var state = request.getState();
         List<Game> response = new ArrayList<>();
         try {
-            List<QueryDocumentSnapshot> documentSnapshots = gameRepositoryFirebase.queryByState(country, state);
+            List<QueryDocumentSnapshot> documentSnapshots = gameRepositoryFirebase.queryByState(request.getCountry(),
+                    request.getState());
+            filterResultsByUID(documentSnapshots, request.getUid());
             for (QueryDocumentSnapshot document: documentSnapshots) {
                 if (document.exists()) {
                     var game = document.toObject(Game.class);
                     double distance = calculateDistanceInMiles(request.getCurrentLatitude(),
                             request.getCurrentLongitude(), game.getLocation());
-                    if (distance < request.getRadius()) {
+                    if (distance < request.getRadius() && !game.getUsers().contains(request.getUid())) {
                         response.add(game);
                     }
                 }
@@ -52,6 +52,9 @@ public class GameService {
     private double calculateDistanceInMiles(double latitude, double longitude, Game.Location location) {
         GeodesicData g = Geodesic.WGS84.Inverse(latitude, longitude, location.getLat(), location.getLng());
         return g.s12 * CONVERSION_TO_MILES_FROM_METERS_CONST;
+    }
+
+    private void filterResultsByUID(List<QueryDocumentSnapshot> documentSnapshots, String uid) {
     }
 
 }

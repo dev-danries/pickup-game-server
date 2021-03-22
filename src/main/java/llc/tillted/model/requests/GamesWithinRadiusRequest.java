@@ -16,4 +16,6 @@ public class GamesWithinRadiusRequest {
     private String country;
     @NotNull(message = "state cannot be null")
     private String state;
+    @NotNull(message = "uid cannot be null")
+    private String uid;
 }

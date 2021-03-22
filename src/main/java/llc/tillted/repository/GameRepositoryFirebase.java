@@ -1,9 +1,7 @@
 package llc.tillted.repository;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
